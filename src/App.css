@@ -9,3 +9,8 @@ background: rgba(19, 19, 19, 0.05);
 
 background: rgb(35, 190, 10);
 }
+.book{
+  border-radius: 16px;
+
+background: rgb(243, 243, 243);
+}
