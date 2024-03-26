@@ -6,6 +6,24 @@ const BookDetails = () => {
   const idInt = parseInt(Id);
   const book = books.find((book) => book.Id === idInt);
   console.log(book);
+
+  const [readBtn, setReadBtn] = useState(false);
+  const [wishBtn, setWishBtn] = useState(false);
+
+  const handleReadBtn = () => {
+    setReadBtn(true);
+    // Add logic for handling "Read" button click, such as showing a toast
+  };
+
+  const handleWishBtn = () => {
+    if (!readBtn) {
+      setWishBtn(true);
+      // Add logic for handling "Wishlist" button click, such as showing a toast
+    } else {
+      // Handle case where "Wishlist" button is clicked after "Read" button
+      // For example, show an error message or prevent the click action
+    }
+  };
   return (
     <div>
       <div className="grid md: grid-cols-4">
@@ -27,8 +45,8 @@ const BookDetails = () => {
           <li>{book.rating}</li>
         </ul>
         <div className="flex justify-around">
-        <button className="btn btn-primary">Read</button> 
-        <button className="btn btn-secondary">Wishlist</button> 
+        <button className="btn btn-primary" onClick={handleReadBtn} disabled={handleWishBtn}>Read</button> 
+        <button className="btn btn-secondary" onClick={handleWishBtn} disabled={handleReadBtn}>Wishlist</button> 
         </div>
         </div>
         
