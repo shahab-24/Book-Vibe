@@ -11,6 +11,9 @@ background: rgb(35, 190, 10);
 }
 .book{
   border-radius: 16px;
+  box-shadow: 3px;
+  padding: 20px;
+  
 
 background: rgb(243, 243, 243);
 }

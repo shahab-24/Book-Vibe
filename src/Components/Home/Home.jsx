@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-
 import Book from "../Book/Book";
+
+
 
 const Home = () => {
   const [books, setBooks] = useState([]);
   useEffect(() => {
-    fetch("Books.json")
+    fetch("/public/Books.json")
       .then((res) => res.json())
       .then((data) => setBooks(data));
   }, []);
@@ -18,6 +19,7 @@ const Home = () => {
           <Book key={book.Id} book={book}></Book>
         ))}
       </div>
+      
     </div>
   );
 };

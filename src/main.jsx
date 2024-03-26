@@ -1,32 +1,37 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Root from './Components/Root/Root.jsx';
-import Home from './Components/Home/Home.jsx';
+import Root from "./Components/Root/Root.jsx";
+import Home from "./Components/Home/Home.jsx";
+import BookDetails from "./assets/BookDetails/BookDetails.jsx";
+
+
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root></Root>,
-    children: [{
-      path: '/',
-      element: <Home></Home>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: '/book/:Id',
+        element: <BookDetails></BookDetails>,
+        loader: () => fetch("Books.json")
+      }
       
-    }
-    
-  ]
-  }
-  
+    ],
+  },
 ]);
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-     <RouterProvider router={router} />
-  </React.StrictMode>,
-)
+    <RouterProvider router={router} />
+  </React.StrictMode>
+);
