@@ -1,6 +1,6 @@
 [
   {
-      "bookId": 1,
+      "Id": 1,
       "bookName": "The Quran",
       "author": "Allah (God)",
       "image": "quran.jpg",
@@ -13,7 +13,7 @@
       "yearOfPublishing": 610
   },
   {
-      "bookId": 2,
+      "Id": 2,
       "bookName": "The Sealed Nectar",
       "author": "Saifur Rahman al-Mubarakpuri",
       "image": "sealed_nectar.jpg",
@@ -26,7 +26,7 @@
       "yearOfPublishing": 1979
   },
   {
-      "bookId": 3,
+      "Id": 3,
       "bookName": "The Forty Hadith of Imam Nawawi",
       "author": "Imam Nawawi",
       "image": "forty_hadith.jpg",
@@ -39,7 +39,7 @@
       "yearOfPublishing": 1274
   },
   {
-      "bookId": 4,
+      "Id": 4,
       "bookName": "The Fundamentals of Tawheed",
       "author": "Dr. Abu Ameenah Bilal Philips",
       "image": "fundamentals_of_tawheed.jpg",
@@ -52,7 +52,7 @@
       "yearOfPublishing": 1999
   },
   {
-      "bookId": 5,
+      "Id": 5,
       "bookName": "The Biography of Abu Bakr As-Siddeeq",
       "author": "Dr. Ali Muhammad As-Sallabi",
       "image": "biography_of_abu_bakr.jpg",
@@ -65,7 +65,7 @@
       "yearOfPublishing": 2005
   },
   {
-      "bookId": 6,
+      "Id": 6,
       "bookName": "Revive Your Heart",
       "author": "Nouman Ali Khan",
       "image": "revive_your_heart.jpg",
@@ -78,7 +78,7 @@
       "yearOfPublishing": 2017
   },
   {
-      "bookId": 7,
+      "Id": 7,
       "bookName": "The Guiding Helper",
       "author": "Arif Azad",
       "image": "guiding_helper.jpg",
@@ -91,7 +91,7 @@
       "yearOfPublishing": 2009
   },
   {
-      "bookId": 8,
+      "Id": 8,
       "bookName": "The Path of the Seekers",
       "author": "Arif Azad",
       "image": "path_of_seekers.jpg",
@@ -104,7 +104,7 @@
       "yearOfPublishing": 2012
   },
   {
-      "bookId": 9,
+      "Id": 9,
       "bookName": "The Essence of Divine Love",
       "author": "Arif Azad",
       "image": "essence_of_divine_love.jpg",
@@ -117,7 +117,7 @@
       "yearOfPublishing": 2015
   },
   {
-      "bookId": 10,
+      "Id": 10,
       "bookName": "The Noble Life of the Prophet Muhammad",
       "author": "Abdul Wahid Hamid",
       "image": "noble_life_of_prophet_muhammad.jpg",
