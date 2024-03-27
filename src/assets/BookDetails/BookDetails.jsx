@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from "react-router-dom";
+import { Link, useLoaderData, useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -10,6 +10,10 @@ const BookDetails = () => {
   const idInt = parseInt(Id);
   const book = books.find((book) => book.Id === idInt);
   console.log(book);
+
+
+  const [selectedTab, setSelectedTab] = useState(0);
+ 
 
   const [readBtn, setReadBtn] = useState(false);
   const [wishBtn, setWishBtn] = useState(false);
@@ -34,9 +38,11 @@ const BookDetails = () => {
     
   // },[idInt]);
 
+
   const handleReadBtn = () => {
     setReadBtn(true);
     saveStoredBook(Id);
+    setSelectedTab(1);
     // localStorage.setItem(`book-${idInt}` , 'read')
     toast("added to read");
    
@@ -45,8 +51,10 @@ const BookDetails = () => {
   const handleWishBtn = () => {
     if (!readBtn) {
       setWishBtn(true);
+      setSelectedTab(1);
       // localStorage.setItem(`book-${idInt}`, 'wishlist');
       toast('added to wishlist')
+
       
     } else {
       toast.error("You have already added this book to read. You cant add it to wishlist")
@@ -76,6 +84,7 @@ const BookDetails = () => {
         <div className="flex justify-around">
         <button className="btn btn-primary" onClick={handleReadBtn}  >Read</button> 
         <button className="btn btn-secondary" onClick={handleWishBtn} >Wishlist</button> 
+        <Link to='/listed'><button className="btn btn-primary">View The List</button></Link>
         </div>
         </div>
         
@@ -89,3 +98,14 @@ const BookDetails = () => {
 export default BookDetails;
 // disabled={readBtn || isBookStorage}
 // disabled={wishBtn  ||isBookStorage || readBtn}
+
+
+// return (
+//   // Your BookDetails component JSX
+//   <button className="btn btn-primary" onClick={handleReadBtn}>Read</button> 
+//   <button className="btn btn-secondary" onClick={handleWishBtn}>Wishlist</button> 
+//   <Link to="/listed-books">
+//     <button className="btn btn-primary">View The List</button>
+//   </Link>
+// );
+// };
