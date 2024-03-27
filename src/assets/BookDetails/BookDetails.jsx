@@ -1,111 +1,72 @@
-import { Link, useLoaderData, useParams } from "react-router-dom";
-import { useEffect, useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { saveStoredBook } from "../../Components/Utility/LocalStorage";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import Swal from 'sweetalert2';
 
-const BookDetails = () => {
-  const books = useLoaderData();
-  const { Id } = useParams();
-  const idInt = parseInt(Id);
-  const book = books.find((book) => book.Id === idInt);
-  console.log(book);
+const BookDetails = ({ books }) => {
+  const { id } = useParams();
+  const book = books.find((book) => book.Id === parseInt(id));
 
+  if (!book) {
+    return <div>Book not found</div>;
+  }
 
-  const [selectedTab, setSelectedTab] = useState(0);
- 
+  const [isAddedToRead, setIsAddedToRead] = useState(false);
+  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
 
-  const [readBtn, setReadBtn] = useState(false);
-  const [wishBtn, setWishBtn] = useState(false);
-
-  // const [isBookStorage, setBookStorage] = useState(false);
-
-  // useEffect(() => {
-  //   const bookStorage = localStorage.getItem(`book-${idInt}`)
-  //   setBookStorage(!!bookStorage);
-  // },[idInt]);
-
-
-  // useEffect (() => {
-  //   const storeBook = localStorage.getItem(`book-${idInt}`);
-  //   if
-  //     (storeBook === 'read'){
-  //       setReadBtn(true);
-        
-  //     } else if(storeBook === 'wishlist'){
-  //       setWishBtn(true);
-  //     }
-    
-  // },[idInt]);
-
-
-  const handleReadBtn = () => {
-    setReadBtn(true);
-    saveStoredBook(Id);
-    setSelectedTab(1);
-    // localStorage.setItem(`book-${idInt}` , 'read')
-    toast("added to read");
-   
-  };
-
-  const handleWishBtn = () => {
-    if (!readBtn) {
-      setWishBtn(true);
-      setSelectedTab(1);
-      // localStorage.setItem(`book-${idInt}`, 'wishlist');
-      toast('added to wishlist')
-
-      
+  const addToRead = () => {
+    if (!isAddedToRead) {
+      setIsAddedToRead(true);
+      setIsAddedToWishlist(false);
+      localStorage.setItem(book.Id, 'read');
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to Read',
+        text: 'Book added to your reading list',
+      });
     } else {
-      toast.error("You have already added this book to read. You cant add it to wishlist")
-      
+      Swal.fire({
+        icon: 'warning',
+        title: 'Already Added',
+        text: 'This book is already in your reading list',
+      });
     }
   };
+
+  const addToWishlist = () => {
+    if (!isAddedToWishlist && !isAddedToRead) {
+      setIsAddedToWishlist(true);
+      localStorage.setItem(book.Id, 'wishlist');
+      Swal.fire({
+        icon: 'success',
+        title: 'Added to Wishlist',
+        text: 'Book added to your wishlist',
+      });
+    } else if (isAddedToRead) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Cannot Add to Wishlist',
+        text: 'This book is already in your reading list',
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Already Added',
+        text: 'This book is already in your wishlist',
+      });
+    }
+  };
+
   return (
-    <div>
-      <div className="grid gap-6 md: grid-cols-4">
-        <div className="md:cols-span-1 px-6 gap-6">
-          <img src={book.image} className="w-full rounded-xl"></img>
-        </div>
-        <div className="md:cols-span-3">
-        <h1 className="text-3xl font-bold">{book.bookName}</h1>
-        <h2 className="text-xl font-bold">Author: {book.author}</h2>
-        <h4>category: {book.category}</h4>
-        <p>review: {book.review}</p>
-        <div>
-        <p className="flex justify-between">{book.tags[0]}</p>
-        <p>{book.tags[1]}</p>
-        <ul>
-          <li>{book.totalPages}</li>
-          <li>{book.publisher}</li>
-          <li>{book.yearOfPublishing}</li>
-          <li>{book.rating}</li>
-        </ul>
-        <div className="flex justify-around">
-        <button className="btn btn-primary" onClick={handleReadBtn}  >Read</button> 
-        <button className="btn btn-secondary" onClick={handleWishBtn} >Wishlist</button> 
-        <Link to='/listed'><button className="btn btn-primary">View The List</button></Link>
-        </div>
-        </div>
-        
-        </div>
-      </div>
-      <ToastContainer />
+    <div className="flex justify-center items-center">
+      {/* Your book details rendering */}
+      <button onClick={addToRead} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
+        Read
+      </button>
+      <button onClick={addToWishlist} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Wishlist
+      </button>
     </div>
   );
 };
 
 export default BookDetails;
-// disabled={readBtn || isBookStorage}
-// disabled={wishBtn  ||isBookStorage || readBtn}
-
-
-// return (
-//   // Your BookDetails component JSX
-//   <button className="btn btn-primary" onClick={handleReadBtn}>Read</button> 
-//   <button className="btn btn-secondary" onClick={handleWishBtn}>Wishlist</button> 
-//   <Link to="/listed-books">
-//     <button className="btn btn-primary">View The List</button>
-//   </Link>
-// );
-// };
