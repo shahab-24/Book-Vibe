@@ -6,9 +6,9 @@ const Book = ({ book }) => {
 
   return (
     <div>
-      <Link to={`/book/${Id}`} className="transition border-2 hover:scale-105 border-primary hover:border-secondary border-opacity-30 rounded-3xl">
-      <div className="book">
-      <img src={image} className="w-[80%] text-center book"></img>
+      <Link to={`/book/${Id}`} className="">
+      <div className="book transition border-2 border-accent hover:scale-105  hover:border-secondary border-opacity-30 rounded-3xl">
+      <img src={image} className="w-full object-cover rounded h-90 text-center book"></img>
       <div className="flex justify-between">
       <p className="text-[chartreuse] font-bold">{tags[0]}</p>
       <p className="text-[chartreuse] font-bold">{tags[1]}</p>

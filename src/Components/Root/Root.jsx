@@ -7,8 +7,10 @@ import Home from '../Home/Home';
 const Root = () => {
   return (
     <div>
-    <Header></Header>
-    <Banner></Banner>
+    <div>
+      <Header></Header>
+    </div>
+   
      
       <Outlet></Outlet>
       
