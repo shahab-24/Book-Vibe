@@ -8,6 +8,7 @@ const Header = () => {
     <li><NavLink className={({isActive}) => isActive ? 'text-accent text-xl font-bold' : 'font-bold'} to='/pages'>Pages to Read</NavLink></li>
     <li><NavLink className={({isActive}) => isActive ? 'text-primary text-xl font-bold' : 'font-bold'} to='/buy'>Buy Now</NavLink></li>
     <li><NavLink className={({isActive}) => isActive ? 'text-primary text-xl font-bold' : 'font-bold'} to='/recommend'>Recommend</NavLink></li>
+
   </>
   return (
     <div className="navbar bg-base-100 max-w-5xl mx-auto mb-10 mt-6 shadow-lg z-10">

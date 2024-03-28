@@ -1,86 +1,93 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import Swal from "sweetalert2";
 
-const BookDetails = ({ books }) => {
-  const { id } = useParams();
-  const [book, setBook]= useState(null);
-  // const book = books.find((book) => book.Id === parseInt(id));
-  
- useEffect(() => {
-  if (books) {
-  const foundBook = books.find((book) => book.Id === parseInt(id));
-  setBook(foundBook);
+import { useEffect, useState } from "react";
+
+import { useLoaderData, useParams } from "react-router-dom";
+ import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import { saveStoredBook } from "../../Components/Utility/LocalStorage";
+
+const BookDetails = () => {
+  const books = useLoaderData();
+  const { Id } = useParams();
+  const book = books.find((book) => book.Id === parseInt(Id));
+
+  console.log(book, Id);
+
+const [isRead, setIsRead] = useState(false);
+const [isWishlist, setIsWishlist] = useState(false);
+
+const addRead = () => {
+  saveStoredBook(parseInt(Id));
+  if(!isRead){
+    setIsRead(true);
+    setIsWishlist(false);
+    localStorage.setItem(book.Id, 'read');
+    toast('Added to Read');
   }
- },[books, id]);
+  else
+{
+  toast.error('Already Added');
+}
+};
 
-  const [isAddedToRead, setIsAddedToRead] = useState(false);
-  const [isAddedToWishlist, setIsAddedToWishlist] = useState(false);
+ const addWishlist =() => {
+  saveStoredBook(parseInt(Id));
+  if(!isWishlist && ! isRead){
+    setIsWishlist(true);
+    localStorage.setItem(book.Id, 'wishlist');
+    toast('Added to Wishlist')
 
-  const addToRead = () => {
-    if (!isAddedToRead) {
-      setIsAddedToRead(true);
-      setIsAddedToWishlist(false);
-      localStorage.setItem(book.Id, "read");
-      Swal.fire({
-        icon: "success",
-        title: "Added to Read",
-        text: "Book added to your reading list",
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Already Added",
-        text: "This book is already in your reading list",
-      });
-    }
-  };
+  }
+  else if (!isRead){
+    toast.error('Already Added to Reading  list')
 
-  const addToWishlist = () => {
-    if (!isAddedToWishlist && !isAddedToRead) {
-      setIsAddedToWishlist(true);
-      localStorage.setItem(book.Id, "wishlist");
-      Swal.fire({
-        icon: "success",
-        title: "Added to Wishlist",
-        text: "Book added to your wishlist",
-      });
-    } else if (isAddedToRead) {
-      Swal.fire({
-        icon: "error",
-        title: "Cannot Add to Wishlist",
-        text: "This book is already in your reading list",
-      });
-    } else {
-      Swal.fire({
-        icon: "warning",
-        title: "Already Added",
-        text: "This book is already in your wishlist",
-      });
-    }
-  };
+  }
+  else{
+    toast.error('Already Added to Wishlist')
+  }
+ }
+
+
+ 
 
   return (
-    <div className="flex justify-center items-center">
-      {/* Your book details rendering */}
-    <div>
-    <image src={book.image}></image>
-
-
-
+    <div className="grid md:grid-cols-4 justify-center items-center py-6 px-10 gap-4">
+    <div className="">
+    
+      <img src={book.image} className="object-cover w-full"></img>
+    </div>
+      
+    <div className="grid md:cols-span-2">
+    
+    <h1 className="text-3xl font-extrabold">{book.bookName}</h1>
+    <h3 className="text-xl font-bold">{book.author}</h3>
+    
+    <p className="text-l font-medium">review: {book.review}</p>
+    <p>{book.totalPages}</p>
+    <p>rating: {book.rating}</p>
+    <p>{book.category}</p>
+    <div className="flex gap-4">
+    <p className="text-green-500 font-bold text-l">#{book.tags[0]}</p>
+    <p className="text-green-500 font-bold text-l">#{book.tags[1]}</p>
+    </div>
+    <p>publisher:{book.publisher}</p>
+    <p>{book.yearOfPublishing}</p>
+        <div className="flex md:flex gap-4">
         <button
-        onClick={addToRead}
+        onClick={addRead}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
       >
         Read
       </button>
       <button
-        onClick={addToWishlist}
+        onClick={addWishlist}
         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
       >
         Wishlist
       </button>
+        </div>
     </div>
+    <ToastContainer />
     </div>
   );
 };

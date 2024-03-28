@@ -15,4 +15,4 @@ const saveStoredBook = Id =>{
   }
 }
 
-export {getStoredBook, saveStoredBook}
+export { getStoredBook, saveStoredBook }

@@ -1,68 +1,129 @@
 import React, { useState, useEffect } from 'react';
 import BookDetails from '../../assets/BookDetails/BookDetails';
+import { Link, Outlet, useLoaderData } from 'react-router-dom';
+import { getStoredBook } from '../Utility/LocalStorage';
+import PagesToRead from '../PagesToRead/PagesToRead';
+
+
+
 
 const ListedBooks = () => {
-  const [sortBy, setSortBy] = useState('rating'); // Default sorting by rating
-  const [books, setBooks] = useState([]);
-  const [activeTab, setActiveTab] = useState('read');
-  const [selectedBookId, setSelectedBookId] = useState(null);
+  const books = useLoaderData();
+  const [tabIndex, setTabIndex] = useState(0);
+  // const [sortBy, setSortBy] = useState('rating');
 
-  useEffect(() => {
-    // Fetch and set books data from localStorage
-    const storedBooks = JSON.parse(localStorage.getItem('storedBooks'));
-    if (storedBooks) {
-      setBooks(storedBooks);
+  const [findBooks, setFindBooks] = useState([]);
+
+
+  useEffect(() => { 
+    const storedBooks = getStoredBook();
+    if (books.length > 0) {
+
+      const bookStore =[];
+      for(const id of storedBooks){
+        const book = books.find(book => book.Id === id);
+        if(book){
+          bookStore.push(book)
+        }
+      }
+      setFindBooks(bookStore);
     }
+    
   }, []);
 
-  // Function to handle sorting
-  const handleSortChange = (e) => {
-    setSortBy(e.target.value);
-    // Implement sorting logic here
-  };
 
-  // Function to handle tab change
-  const handleTabChange = (tab) => {
-    setActiveTab(tab);
-  };
 
-  // Function to handle click on a book card
-  const handleBookClick = (bookId) => {
-    setSelectedBookId(bookId);
-  };
 
-  // Filter books based on active tab (read or wishlist)
-  const filteredBooks = books.filter(book => activeTab === 'read' ? book.read : book.wishlist);
+
+  // const handleSortChange = (e) => {
+  //   setSortBy(e.target.value);
+  //   // You can implement sorting functionality based on the selected option (Rating, Number of pages, Published year)
+  // };
+
+  const readBooks = findBooks.filter(book => book.read);
+  const wishlistBooks = findBooks.filter(book => !book.read);
+
+  const displayBooks = tabIndex === 0 ? readBooks : wishlistBooks;
+
+  
+  
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Listed Books</h1>
-      {/* Dropdown for sorting */}
-      <select value={sortBy} onChange={handleSortChange}>
-        <option value="rating">Rating</option>
-        <option value="totalPages">Number of Pages</option>
-        <option value="yearOfPublishing">Published Year</option>
-      </select>
-      {/* Tabs for read and wishlist */}
-      <div>
-        <button onClick={() => handleTabChange('read')}>Read</button>
-        <button onClick={() => handleTabChange('wishlist')}>Wishlist</button>
-      </div>
-      {/* Display list of books */}
-      <div className="grid grid-cols-3 gap-4">
-        {filteredBooks.map(book => (
-          <div key={book.id} className="border p-4" onClick={() => handleBookClick(book.id)}>
-            <img src={book.image} alt={book.bookName} />
-            <p>{book.bookName}</p>
-            <p>{book.author}</p>
-            <button>View Details</button>
+    
+      <div className='px-6'>
+       
+        <h1 className="text-3xl font-bold">Listed Books: {findBooks.length}</h1>
+        
+        {/* <div className="flex justify-center items-center mt-6">
+        
+        <select value={sortBy} onChange={handleSortChange} className="mr-4">
+          <option value="rating">Rating</option>
+          <option value="totalPages">Number of Pages</option>
+          <option value="yearOfPublishing">Published Year</option>
+        </select>
+      </div> */}
+
+      
+
+
+        <div className="flex items-center -mx-4 overflow-x-auto overflow-y-hidden sm:justify-start flex-nowrap text-gray-100">
+	<Link to='' onClick={() => setTabIndex(0)} rel="noopener noreferrer" href="#" className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${tabIndex === 0 ? 'border border-b-0' : 'border-b'} rounded-t-lg border-gray-400 text-black`}>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+			<path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+		</svg>
+		<span>Read</span>
+	</Link>
+	<Link to={`wishlist`} onClick={() => setTabIndex(1)} rel="noopener noreferrer" href="#" className={`flex items-center flex-shrink-0 px-5 py-3 space-x-2 ${tabIndex === 1 ? 'border border-b-0' : 'border-b'} rounded-t-lg border-gray-400 text-black`}>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+			<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+			<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+		</svg>
+		<span>Wishlist</span>
+	</Link>
+  
+
+</div> 
+
+
+<Outlet></Outlet>
+
+
+
+
+<div className="grid grid-cols-3 gap-4 mt-4 ">
+        {displayBooks.map(book => (
+          <div key={book.id} className="border p-4 shadow-xl rounded-xl">
+            <div className='flex justify-center text-center items-center rounded-xl py-4'><img src={book.image} alt={book.bookName} /></div>
+            <h1 className='text-3xl font-bold'>{book.bookName}</h1>
+            <h2 className='text-xl font-bold'>{book.author}</h2>
+            <p>Category: {book.category}</p>
+            <div className='flex justify-between text-green-500 font-bold'>
+            <p>#{book.tags[0]}</p>
+            <p>#{book.tags[1]}</p>
+            </div>
+            <p>Total Pages: {book.totalPages}</p>
+            <p>Publisher: {book.publisher}</p>
+            <p>Publish Year: {book.yearOfPublishing}</p>
+            <p>Rating: {book.rating}</p>
+            
           </div>
         ))}
       </div>
-      {/* Render BookDetailsPage conditionally */}
-      {selectedBookId && <BookDetails bookId={selectedBookId} />}
+
+
+       <Link to='/book/${id}'>
+       <button className="bg-green-500 hover:bg-green-700 text-white mt-6 font-bold py-2 px-4 rounded">View Details</button>
+       </Link>
+
+   
+      <PagesToRead readBooks={readBooks}></PagesToRead>
+     
     </div>
   );
 };
 
 export default ListedBooks;
+
+
+
+ 
