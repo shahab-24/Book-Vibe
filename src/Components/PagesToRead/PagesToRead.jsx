@@ -1,5 +1,4 @@
 
-
 import {
   Bar,
   BarChart,
@@ -15,9 +14,9 @@ import { getStoredBook } from "../Utility/LocalStorage";
 const PagesToRead = () => {
   const colors = ["#00C49F", "#0088FE", "#FFBB28", "#FF8042", "red", "pink"];
 
-  const readedData = getStoredBook("read");
-console.log(readedData);
-  const chartData = readedData.map((book) => ({
+  const readData = getStoredBook("read");
+console.log(readData);
+  const chartData = readData.map((book) => ({
     name: book.bookName,
     totalPages: book.totalPages,
     
@@ -35,7 +34,7 @@ console.log(readedData);
   };
 
   const TriangleBar = (props) => {
-    // eslint-disable-next-line react/prop-types
+   
     const { fill, x, y, width, height } = props;
 
     return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;

@@ -20,9 +20,9 @@ const addRead = () => {
   saveStoredBook(parseInt(Id));
   if(!isRead){
     setIsRead(true);
-    setIsWishlist(false);
+    setIsWishlist(true);
     localStorage.setItem(book.Id, 'read');
-    toast('Added to Read');
+    toast.success('Added to Read');
   }
   else
 {
@@ -35,7 +35,7 @@ const addRead = () => {
   if(!isWishlist && ! isRead){
     setIsWishlist(true);
     localStorage.setItem(book.Id, 'wishlist');
-    toast('Added to Wishlist')
+    toast.success('Added to Wishlist')
 
   }
   else if (!isRead){
@@ -60,18 +60,18 @@ const addRead = () => {
     <div className="grid md:cols-span-2">
     
     <h1 className="text-3xl font-extrabold">{book.bookName}</h1>
-    <h3 className="text-xl font-bold">{book.author}</h3>
+    <h3 className="text-xl font-bold">Author: {book.author}</h3>
     
     <p className="text-l font-medium">review: {book.review}</p>
-    <p>{book.totalPages}</p>
+    <p>Total Page: {book.totalPages}</p>
     <p>rating: {book.rating}</p>
-    <p>{book.category}</p>
+    <p>Category: {book.category}</p>
     <div className="flex gap-4">
     <p className="text-green-500 font-bold text-l">#{book.tags[0]}</p>
     <p className="text-green-500 font-bold text-l">#{book.tags[1]}</p>
     </div>
     <p>publisher:{book.publisher}</p>
-    <p>{book.yearOfPublishing}</p>
+    <p>Publish Year: {book.yearOfPublishing}</p>
         <div className="flex md:flex gap-4">
         <button
         onClick={addRead}

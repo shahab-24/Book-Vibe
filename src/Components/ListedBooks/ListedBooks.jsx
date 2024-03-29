@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import BookDetails from '../../assets/BookDetails/BookDetails';
-import { Link, Outlet, useLoaderData } from 'react-router-dom';
+import  { useState, useEffect } from 'react';
+
+import { Link, Outlet, useLoaderData, useNavigate } from 'react-router-dom';
 import { getStoredBook } from '../Utility/LocalStorage';
 import PagesToRead from '../PagesToRead/PagesToRead';
+import BookDetails from '../../assets/BookDetails/BookDetails';
 
 
 
 
 const ListedBooks = () => {
+  const navigate = useNavigate()
   const books = useLoaderData();
+  const {Id} = books;
   const [tabIndex, setTabIndex] = useState(0);
-  // const [sortBy, setSortBy] = useState('rating');
+  const [sortBy, setSortBy] = useState('rating');
 
   const [findBooks, setFindBooks] = useState([]);
 
@@ -35,33 +38,38 @@ const ListedBooks = () => {
 
 
 
-  // const handleSortChange = (e) => {
-  //   setSortBy(e.target.value);
-  //   // You can implement sorting functionality based on the selected option (Rating, Number of pages, Published year)
-  // };
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+    
+  };
 
   const readBooks = findBooks.filter(book => book.read);
   const wishlistBooks = findBooks.filter(book => !book.read);
 
   const displayBooks = tabIndex === 0 ? readBooks : wishlistBooks;
 
-  
+  const handleViewDetails=() =>{
+    navigate(`/book/${Id}`)
+  }
   
 
   return (
     
       <div className='px-6'>
        
-        <h1 className="text-3xl font-bold">Listed Books: {findBooks.length}</h1>
+       
+         
         
-        {/* <div className="flex justify-center items-center mt-6">
-        
+       
+       <h1 className="text-3xl font-bold mt-20">Listed Books: {findBooks.length}</h1>
+        <div className="flex flex-col justify-center items-center mt-6">
+        <h1 className="bg-green-500 text-black text-center mt-6 mb-2 font-bold py-2 px-4 rounded w-40">Sort BY</h1>
         <select value={sortBy} onChange={handleSortChange} className="mr-4">
           <option value="rating">Rating</option>
           <option value="totalPages">Number of Pages</option>
           <option value="yearOfPublishing">Published Year</option>
         </select>
-      </div> */}
+      </div>
 
       
 
@@ -90,7 +98,7 @@ const ListedBooks = () => {
 
 
 
-<div className="grid grid-cols-3 gap-4 mt-4 ">
+<div className="grid md:grid-cols-3 gap-4 mt-4 ">
         {displayBooks.map(book => (
           <div key={book.id} className="border p-4 shadow-xl rounded-xl">
             <div className='flex justify-center text-center items-center rounded-xl py-4'><img src={book.image} alt={book.bookName} /></div>
@@ -105,15 +113,15 @@ const ListedBooks = () => {
             <p>Publisher: {book.publisher}</p>
             <p>Publish Year: {book.yearOfPublishing}</p>
             <p>Rating: {book.rating}</p>
-            
+            <Link to=''>
+       <button onClick={()=> handleViewDetails()} className="bg-green-500 hover:bg-green-700 text-white mt-6 font-bold py-2 px-4 rounded">View Details</button>
+       </Link>
           </div>
         ))}
       </div>
 
 
-       <Link to='/book/${id}'>
-       <button className="bg-green-500 hover:bg-green-700 text-white mt-6 font-bold py-2 px-4 rounded">View Details</button>
-       </Link>
+       
 
    
       <PagesToRead readBooks={readBooks}></PagesToRead>
