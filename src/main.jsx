@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -32,12 +32,12 @@ const router = createBrowserRouter([
       {
         path: '/book/:Id',
         element: <BookDetails></BookDetails>,
-        loader: () => fetch("Books.json")
+        loader: () => fetch("./Books.json/&{Id}")
       },
       {
         path: '/listed',
         element: <ListedBooks></ListedBooks>,
-        loader: () => fetch("Books.json"),
+        loader: () => fetch("./Books.json"),
         children: [
           {
             index: true,
