@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useLoaderData, useParams } from "react-router-dom";
  import { ToastContainer, toast } from 'react-toastify';
@@ -20,9 +20,10 @@ const addRead = () => {
   saveStoredBook(parseInt(Id));
   if(!isRead){
     setIsRead(true);
-    setIsWishlist(true);
+    setIsWishlist(false);
     localStorage.setItem(book.Id, 'read');
     toast.success('Added to Read');
+  
   }
   else
 {

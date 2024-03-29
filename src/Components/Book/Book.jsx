@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import '../../App.css'
-import BookDetails from "../../assets/BookDetails/BookDetails";
+
 
 const Book = ({ book }) => {
   const { Id, image, tags , bookName, author, category, rating } = book;

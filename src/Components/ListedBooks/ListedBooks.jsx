@@ -2,8 +2,7 @@ import  { useState, useEffect } from 'react';
 
 import { Link, Outlet, useLoaderData, useNavigate } from 'react-router-dom';
 import { getStoredBook } from '../Utility/LocalStorage';
-import PagesToRead from '../PagesToRead/PagesToRead';
-import BookDetails from '../../assets/BookDetails/BookDetails';
+
 
 
 
@@ -36,16 +35,12 @@ const ListedBooks = () => {
 
 
 
-
-
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
-    
   };
 
   const readBooks = findBooks.filter(book => book.read);
   const wishlistBooks = findBooks.filter(book => !book.read);
-
   const displayBooks = tabIndex === 0 ? readBooks : wishlistBooks;
 
   const handleViewDetails=() =>{
@@ -57,7 +52,6 @@ const ListedBooks = () => {
     
       <div className='px-6 mx-auto max-w-5xl'>
        
-       
        <h1 className="text-3xl font-bold mt-20 text-center">Books: {findBooks.length}</h1>
         <div className="flex flex-col justify-center items-center mt-6">
         <h1 className="bg-green-500 text-black text-center mt-6 mb-2 font-bold py-2 px-4 rounded w-40">Sort BY</h1>
@@ -67,8 +61,6 @@ const ListedBooks = () => {
           <option value="yearOfPublishing">Published Year</option>
         </select>
       </div>
-
-      
 
 
         <div className="flex items-center mx-auto max-w-5xl overflow-x-auto overflow-y-hidden sm:justify-start flex-nowrap text-gray-100">
@@ -86,13 +78,10 @@ const ListedBooks = () => {
 		<span>Wishlist</span>
 	</Link>
   
-
 </div> 
 
 
 <Outlet></Outlet>
-
-
 
 
 <div className="gap-4 py-4 mt-4 mx-auto max-w-5xl ">
@@ -129,12 +118,6 @@ const ListedBooks = () => {
           </div>
         ))}
       </div>
-
-
-       
-
-   
-      <PagesToRead readBooks={readBooks}></PagesToRead>
      
     </div>
   );

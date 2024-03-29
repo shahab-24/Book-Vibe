@@ -51,7 +51,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/pages',
-        element: <PagesToRead></PagesToRead>
+        element: <PagesToRead></PagesToRead>,
+       
       },
       {
         path: '/buy',
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
